@@ -19,6 +19,11 @@ class AuthController extends Controller
     {
         $this->request = $request;
     }
+    public function login()
+    {
+        return 'home page';
+        return view('admin.login');
+    }
     public function authenticate()
     {
 

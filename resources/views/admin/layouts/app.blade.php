@@ -30,6 +30,10 @@
     <link rel="stylesheet" href="{{asset('admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <!-- Toastify.js CDN (JavaScript) -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -47,23 +51,7 @@
  @include('admin.layouts.side-bar')
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+   
 
     <!-- Main content -->
    @yield('content')
@@ -71,11 +59,11 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2024 <a href="https://adminlte.io">Admin</a>.</strong>
+    <strong>Copyright &copy; 2024 <a href="#">Admin</a>.</strong>
     All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
+    {{-- <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 3.2.0
-    </div>
+    </div> --}}
   </footer>
 
   <!-- Control Sidebar -->
@@ -94,6 +82,7 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Bootstrap 4 -->
 <script src="{{asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- ChartJS -->
@@ -108,6 +97,9 @@
 <!-- daterangepicker -->
 <script src="{{asset('admin/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('admin/plugins/daterangepicker/daterangepicker.js')}}"></script>
+<!-- Include SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="{{asset('admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
 <!-- Summernote -->
@@ -133,13 +125,44 @@
 <script src="{{asset('admin/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{asset('admin/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{asset('admin/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if (session('success'))
+<script>
+    Swal.fire({
+        position: "top-end",
+        icon: 'success',
+        title: 'Success',
+        text: '{{ session('success') }}', // Display the success message
+        timer: 3000, // 3 seconds
+        showConfirmButton: false, // Hide the confirm button
+    });
+</script>
+@endif --}}
+@if (session('success'))
+<script>
+  // Display the success toast message
+  Toastify({
+      text: "{{ session('success') }}",  
+      duration: 3000,                  
+      close: true,                     
+      gravity: "top",                  
+      position: "center",                
+      backgroundColor: "green",         
+      stopOnFocus: true              
+  }).showToast();
+</script>
+@endif
 
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            "responsive": true,
+            "lengthChange": true, // Allow changing pagination length
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            "pageLength": 10, // Default number of rows per page
+            "lengthMenu": [10, 15,20, 50, 100, 200], // Dropdown options for rows per page
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,

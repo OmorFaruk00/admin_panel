@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
+use App\Models\Roleable;
+use App\Models\RoleUser;
 use App\Models\SystemSetting;
 use App\Models\User;
 use App\Models\UserRole;
@@ -36,13 +38,11 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'password' =>bcrypt('admin@1234'),
-                'role_id' => 1,
             ],
             [
                 'name' => 'User',
                 'email' => 'user@gmail.com',
                 'password' =>bcrypt('user@1234'),
-                'role_id' => 2,
             ],
         ];
         
@@ -61,9 +61,34 @@ class DatabaseSeeder extends Seeder
                 'role_id' => 2,
             ],
         ];
-
         foreach ($user_role  as $user) {
             UserRole::create($user);
+        }
+
+
+        $roleable = [
+            [
+                'role_id' => 1,
+                'roleable_type' => 'App\Models\User',
+                'roleable_id' => 1,
+               
+            ],
+            [
+                'role_id' => 2,
+                'roleable_type' => 'App\Models\User',
+                'roleable_id' => 2,
+               
+            ],
+            [
+                'role_id' => 1,
+                'roleable_type' => 'App\Models\User',
+                'roleable_id' => 2,
+               
+            ],
+        ];
+
+        foreach ($roleable  as $role) {
+            Roleable::create($role);
         }
 
 
@@ -71,5 +96,8 @@ class DatabaseSeeder extends Seeder
             'key' => 'session_expired_time',
             'value' => '36000',
         ]);
+
+
+        \App\Models\Category::factory(100)->create();
     }
 }

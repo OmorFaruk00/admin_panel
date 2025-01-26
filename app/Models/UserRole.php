@@ -9,4 +9,5 @@ class UserRole extends Model
 {
     /** @use HasFactory<\Database\Factories\UserRoleFactory> */
     use HasFactory;
+    protected $table = 'role_user';
 }

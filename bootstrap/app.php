@@ -1,5 +1,7 @@
 <?php
 
+use App\Console\Commands\TestCommand;
+use App\Http\Middleware\CheckDomain;
 use App\Http\Middleware\CommonAccessMiddleware;
 use App\Http\Middleware\TestMiddlewere;
 use App\Http\Middleware\TokenAuthMiddleware;
@@ -20,10 +22,15 @@ return Application::configure(basePath: dirname(__DIR__))
             'CommonAccessMiddleware'=>CommonAccessMiddleware::class,
             'logged_in'=>LoggedInMiddlewere::class,
             'redirect_to_apps'=>RedirectToApps::class,
-            'token.auth'=>TokenAuthMiddleware::class,
+            'auth'=>TokenAuthMiddleware::class,
+            'check_domain'=>CheckDomain::class,
 
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->withCommands([
+        TestCommand::class, // Add your custom command here
+    ])
+    ->create();

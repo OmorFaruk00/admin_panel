@@ -48,6 +48,16 @@ return [
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
+        'alternative_smtp' => [
+            'transport' => 'smtp',
+            'host' => env('ALT_MAIL_HOST', '127.0.0.1'),
+            'port' => env('ALT_MAIL_PORT', 587),
+            'encryption' => env('ALT_MAIL_ENCRYPTION', 'tls'),
+            'username' => env('ALT_MAIL_USERNAME'),
+            'password' => env('ALT_MAIL_PASSWORD'),
+            'timeout' => null,
+            'auth_mode' => null,
+        ],
 
         'ses' => [
             'transport' => 'ses',
